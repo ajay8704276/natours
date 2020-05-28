@@ -8,6 +8,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
@@ -26,6 +27,25 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 // 1) GLOBAL MIDDLEWARES
+
+//implement cors - cross origin request sharing
+app.use(cors());
+//Access control Allow origin * for all the request
+//Allowing the user to access the api
+// if we want to allow only specific routes
+//then in that case will pass cors() as middleware to
+//that api routes
+
+//api.natours.com ,  front end natours.com
+/*app.use(
+  cors({
+    origin: 'https://www.api.natours.com' // allowing this routes to access the api
+  })
+);*/
+
+app.options('*', cors());
+//app.options('/api/v1/tours/:id', cors());
+
 // Serving static files
 app.use(express.static(path.join(__dirname, 'public')));
 
